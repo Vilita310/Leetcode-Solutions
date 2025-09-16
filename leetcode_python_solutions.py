@@ -682,5 +682,36 @@ class Solution:
 
 ########################################
 # 题号：34. Find First and Last Position of Element in Sorted Array
+# 复杂度：时间 O(logN) | 空间 O(1)
 ########################################
-pass  # TODO: 本题尚无代码
+class Solution:
+    def lower_bound(self, nums: List[int], target: int) -> int:
+        # Finds the first index where nums[index] >= target
+        left, right = 0, len(nums) - 1
+        while left <= right:
+            mid = (left + right) // 2
+            # If mid element is greater than or equal to target,
+            # it could be a valid position, so search the left half
+            if nums[mid] >= target:
+                right = mid - 1
+            else:
+                # Otherwise, discard the left half and search right
+                left = mid + 1
+        # At the end, left points to the first element >= target
+        return left
+
+    def searchRange(self, nums: List[int], target: int) -> List[int]:
+        # Find the first index where nums[index] >= target
+        start = self.lower_bound(nums, target)
+
+        # Check if target is out of bounds or not actually present
+        # Important: check start == len(nums) first to avoid index out of bounds
+        if start == len(nums) or nums[start] != target:
+            return [-1, -1]  # Target not found
+
+        # Find the first index where nums[index] > target,
+        # then subtract 1 to get the last position of target
+        end = self.lower_bound(nums, target + 1) - 1
+
+        return [start, end]
+
