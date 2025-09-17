@@ -715,3 +715,21 @@ class Solution:
 
         return [start, end]
 
+########################################
+# 题号：2529. Maximum Count of Positive Integer and Negative Integer
+# 复杂度：时间 O(logN) | 空间 O(1)
+# 笔记：bisect 就是 Python 的“二分查找神器”模块，能帮你高效地在有序数组中查找或插入元素的位置，不用自己写繁琐的二分查找代码。
+########################################
+class Solution:
+    def maximumCount(self, nums: List[int]) -> int:
+        # Count of negative numbers = number of elements < 0
+        neg = bisect_left(nums, 0)
+        
+        # Count of positive numbers = number of elements > 0
+        pos = len(nums) - bisect_right(nums, 0)
+        
+        # Return the maximum of the two
+        return max(neg, pos)
+
+
+
