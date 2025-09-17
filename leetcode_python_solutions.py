@@ -731,5 +731,20 @@ class Solution:
         # Return the maximum of the two
         return max(neg, pos)
 
+########################################
+# 题号：2300. Successful Pairs of Spells and Potions
+# 复杂度：时间 O(NLogN) | 空间 O(1)
+# 笔记：因为 y 是整数，而 success / x 是小数，想保证乘积满足，就必须找第一个整数 ≥ success / x，也就是 ceil(success / x)，而不是向下取整的 floor。 
+#      ceil(x / y)  ==  (x + y - 1) // y
+########################################
+class Solution:
+    def successfulPairs(self, spells: List[int], potions: List[int], success: int) -> List[int]:
+        potions.sort()  # Sort potions for binary search
+        m = len(potions)
+        success -= 1     # Trick to simulate ceil(success / x) using integer division
 
+        # For each spell, find number of potions such that spell * potion >= success
+        # This is equivalent to potion >= ceil(success / spell)
+        return [m - bisect_right(potions, success // x) for x in spells]
+        
 
