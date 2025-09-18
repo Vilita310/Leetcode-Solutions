@@ -715,6 +715,7 @@ class Solution:
 
         return [start, end]
 
+
 ########################################
 # 题号：2529. Maximum Count of Positive Integer and Negative Integer
 # 复杂度：时间 O(logN) | 空间 O(1)
@@ -731,11 +732,13 @@ class Solution:
         # Return the maximum of the two
         return max(neg, pos)
 
+
 ########################################
 # 题号：2300. Successful Pairs of Spells and Potions
 # 复杂度：时间 O(NLogN) | 空间 O(1)
-# 笔记：因为 y 是整数，而 success / x 是小数，想保证乘积满足，就必须找第一个整数 ≥ success / x，也就是 ceil(success / x)，而不是向下取整的 floor。 
-#      ceil(x / y)  ==  (x + y - 1) // y
+# 笔记：
+    # 因为 y 是整数，而 success / x 是小数，想保证乘积满足，就必须找第一个整数 ≥ success / x，也就是 ceil(success / x)，而不是向下取整的 floor。 
+    # ceil(x / y)  ==  (x + y - 1) // y
 ########################################
 class Solution:
     def successfulPairs(self, spells: List[int], potions: List[int], success: int) -> List[int]:
@@ -746,11 +749,16 @@ class Solution:
         # For each spell, find number of potions such that spell * potion >= success
         # This is equivalent to potion >= ceil(success / spell)
         return [m - bisect_right(potions, success // x) for x in spells]
-        
+
+
+
 ########################################
 # 题号：2563. Count the Number of Fair Pairs
 # 复杂度：时间 O(NLogN) | 空间 O(1)
-# 笔记：这道题的核心在于：固定右边 nums[j]，通过二分查找左边 [0, j-1] 中有多少个 nums[i] 落在合法加法区间里。二分 + 有序数组是经典套路。
+# 笔记：
+    # 这道题的核心在于：固定右边 nums[j]，通过二分查找左边 [0, j-1] 中有多少个 nums[i] 落在合法加法区间里。二分 + 有序数组是经典套路。
+    # 因为在 bisect 模块中，bisect_left(nums, target, lo, hi) 是在区间 [lo, hi)（左闭右开）中查找，所以：
+    # bisect_x(..., 0, j) 实际操作的区间是 nums[0] 到 nums[j-1]
 ########################################
 class Solution:
     def countFairPairs(self, nums: List[int], lower: int, upper: int) -> int:
@@ -763,3 +771,5 @@ class Solution:
             l = bisect_left(nums, lower - x, 0, j)
             ans += r - l  # Count valid i for this j
         return ans
+
+
