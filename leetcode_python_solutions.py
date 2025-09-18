@@ -747,4 +747,19 @@ class Solution:
         # This is equivalent to potion >= ceil(success / spell)
         return [m - bisect_right(potions, success // x) for x in spells]
         
-
+########################################
+# 题号：2563. Count the Number of Fair Pairs
+# 复杂度：时间 O(NLogN) | 空间 O(1)
+# 笔记：这道题的核心在于：固定右边 nums[j]，通过二分查找左边 [0, j-1] 中有多少个 nums[i] 落在合法加法区间里。二分 + 有序数组是经典套路。
+########################################
+class Solution:
+    def countFairPairs(self, nums: List[int], lower: int, upper: int) -> int:
+        nums.sort()  # Sort the array
+        ans = 0
+        for j, x in enumerate(nums):
+            # Find how many nums[i] (i < j) satisfy: lower ≤ nums[i] + x ≤ upper
+            # → lower - x ≤ nums[i] ≤ upper - x
+            r = bisect_right(nums, upper - x, 0, j)
+            l = bisect_left(nums, lower - x, 0, j)
+            ans += r - l  # Count valid i for this j
+        return ans
